@@ -1,0 +1,83 @@
+---
+import type { Notice } from '../../data/home';
+
+interface Props {
+	notices: Notice[];
+}
+
+const { notices } = Astro.props;
+---
+
+<section id="avisos" class="section-shell" aria-labelledby="notices-title">
+	<div class="section-heading">
+		<p class="eyebrow">Prioridad institucional</p>
+		<h2 id="notices-title" class="section-title">Avisos importantes</h2>
+		<p class="section-copy">Comunicados destacados con fecha, categoría y contexto. Los avisos oficiales deben validarse antes de publicarse.</p>
+	</div>
+	{notices.length > 0 ? (
+		<div class="notice-grid">
+			{notices.slice(0, 3).map((notice) => (
+				<article class:list={['notice-card', `priority-${notice.priority}`]}>
+					<p class="notice-meta">{notice.category} · {notice.publishedAt}</p>
+					<h3>{notice.title}</h3>
+					<p>{notice.summary}</p>
+					{notice.deadline && <p class="deadline">Fecha límite: {notice.deadline}</p>}
+					<a class="btn btn-ghost" href={notice.href}>Leer aviso</a>
+				</article>
+			))}
+		</div>
+	) : (
+		<p class="empty-state">Aún no hay avisos oficiales publicados.</p>
+	)}
+</section>
+
+<style>
+	.notice-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.notice-card {
+		display: grid;
+		gap: 1rem;
+		align-content: start;
+		border: 1px solid var(--color-neutral-200);
+		border-top: 5px solid var(--color-info);
+		border-radius: var(--radius-lg);
+		background: var(--color-white);
+		box-shadow: var(--shadow-soft);
+		padding: var(--space-6);
+	}
+
+	.priority-high {
+		border-top-color: var(--color-warning);
+	}
+
+	.priority-urgent {
+		border-top-color: var(--color-red-600);
+	}
+
+	.notice-meta,
+	.deadline {
+		color: var(--color-primary-800);
+		font-size: 0.82rem;
+		font-weight: 800;
+	}
+
+	h3 {
+		margin: 0;
+		font-size: 1.35rem;
+	}
+
+	p:not(.notice-meta):not(.deadline) {
+		color: var(--color-neutral-600);
+		font-family: var(--font-reading);
+	}
+
+	@media (max-width: 900px) {
+		.notice-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

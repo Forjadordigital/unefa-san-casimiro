@@ -1,0 +1,116 @@
+---
+import type { AcademicProgram } from '../../data/home';
+
+interface Props {
+	programs: AcademicProgram[];
+}
+
+const { programs } = Astro.props;
+---
+
+<section id="oferta-academica" class="academic-section" aria-labelledby="programs-title">
+	<div class="section-shell">
+		<div class="section-heading">
+			<p class="eyebrow">Oferta académica</p>
+			<h2 id="programs-title" class="section-title">Programas de referencia para la extensión</h2>
+			<p class="section-copy">La siguiente oferta parte de referencias documentales y debe validarse internamente antes de publicarse como definitiva.</p>
+		</div>
+		<p class="pending-note">Validar vigencia, modalidad, nivel y datos académicos con coordinación antes de abrir páginas de detalle.</p>
+		<div class="program-grid">
+			{programs.map((program) => (
+				<article class="program-card">
+					<div>
+						<p class="program-meta">{program.level} · {program.modality}</p>
+						<h3>{program.name}</h3>
+						<p>{program.summary}</p>
+					</div>
+					<div class="program-footer">
+						<span>{program.lastReviewedAt}</span>
+						<a href="#oferta-academica" aria-label={`Preparar detalle de ${program.name}`}>Ver programa</a>
+					</div>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.academic-section {
+		background: linear-gradient(180deg, var(--color-white), var(--color-primary-50));
+	}
+
+	.pending-note {
+		margin-bottom: var(--space-6);
+	}
+
+	.program-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.program-card {
+		display: flex;
+		min-height: 20rem;
+		flex-direction: column;
+		justify-content: space-between;
+		border: 1px solid var(--color-neutral-200);
+		border-radius: var(--radius-lg);
+		background: var(--color-white);
+		box-shadow: var(--shadow-soft);
+		padding: var(--space-6);
+	}
+
+	.program-meta {
+		margin-bottom: 1rem;
+		color: var(--color-primary-800);
+		font-size: 0.82rem;
+		font-weight: 800;
+	}
+
+	h3 {
+		margin-bottom: 0.75rem;
+		font-size: 1.45rem;
+	}
+
+	p:not(.program-meta) {
+		color: var(--color-neutral-600);
+		font-family: var(--font-reading);
+	}
+
+	.program-footer {
+		display: grid;
+		gap: 0.85rem;
+		margin-top: 1.5rem;
+	}
+
+	.program-footer span {
+		color: var(--color-neutral-600);
+		font-size: 0.82rem;
+	}
+
+	.program-footer a {
+		width: fit-content;
+		color: var(--color-primary-800);
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.program-footer a:hover,
+	.program-footer a:focus-visible {
+		color: var(--color-primary-700);
+		text-decoration: underline;
+	}
+
+	@media (max-width: 980px) {
+		.program-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 640px) {
+		.program-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

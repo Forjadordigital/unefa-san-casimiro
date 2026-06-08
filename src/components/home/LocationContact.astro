@@ -1,0 +1,143 @@
+---
+import type { ContactInfo, NavigationItem } from '../../data/home';
+
+interface Props {
+	contact: ContactInfo;
+	links: NavigationItem[];
+}
+
+const { contact, links } = Astro.props;
+---
+
+<section id="contacto" class="section-shell contact-grid" aria-labelledby="contact-title">
+	<div>
+		<p class="eyebrow">Ubicación y contacto</p>
+		<h2 id="contact-title" class="section-title">Estamos en San Casimiro, estado Aragua.</h2>
+		<p class="section-copy">Consulta la ubicación y los canales oficiales de atención para recibir orientación académica o administrativa.</p>
+		<address class="contact-card card">
+			<strong>Dirección de referencia</strong>
+			<span>{contact.address}</span>
+			<small>{contact.addressStatus}</small>
+		</address>
+	</div>
+	<div class="contact-panel card">
+		<dl>
+			<div>
+				<dt>Teléfono</dt>
+				<dd>{contact.phone}</dd>
+			</div>
+			<div>
+				<dt>Correo</dt>
+				<dd>{contact.email}</dd>
+			</div>
+			<div>
+				<dt>Horario</dt>
+				<dd>{contact.attentionHours}</dd>
+			</div>
+		</dl>
+		<a class="btn btn-primary" href={contact.mapHref} target="_blank" rel="noreferrer">Abrir ubicación de referencia</a>
+		<div class="institutional-links" aria-labelledby="institutional-links-title">
+			<h3 id="institutional-links-title">Enlaces institucionales</h3>
+			<ul>
+				{links.map((link) => (
+					<li>
+						<a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined}>
+							{link.label}
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.contact-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+		gap: 2rem;
+		align-items: start;
+	}
+
+	.contact-card,
+	.contact-panel {
+		padding: var(--space-6);
+	}
+
+	.contact-card {
+		display: grid;
+		gap: 0.75rem;
+		margin-top: var(--space-6);
+		font-style: normal;
+	}
+
+	.contact-card strong {
+		color: var(--color-neutral-950);
+	}
+
+	.contact-card span {
+		font-family: var(--font-reading);
+	}
+
+	.contact-card small {
+		color: var(--color-warning);
+		font-weight: 800;
+	}
+
+	.contact-panel {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	dl {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+	}
+
+	dl div {
+		border-bottom: 1px solid var(--color-neutral-200);
+		padding-bottom: 1rem;
+	}
+
+	dt {
+		color: var(--color-primary-800);
+		font-size: 0.82rem;
+		font-weight: 900;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	dd {
+		margin: 0.25rem 0 0;
+		color: var(--color-neutral-800);
+	}
+
+	h3 {
+		font-size: 1.2rem;
+	}
+
+	ul {
+		display: grid;
+		gap: 0.5rem;
+		margin: 0;
+		padding-left: 1.2rem;
+	}
+
+	a:not(.btn) {
+		color: var(--color-primary-800);
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	a:not(.btn):hover,
+	a:not(.btn):focus-visible {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 860px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

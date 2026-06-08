@@ -1,0 +1,30 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+interface Props {
+	title?: string;
+	description?: string;
+	structuredData?: Record<string, unknown>;
+}
+
+const { title = SITE_TITLE, description = SITE_DESCRIPTION, structuredData } = Astro.props;
+const structuredDataJson = structuredData ? JSON.stringify(structuredData) : undefined;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead title={title} description={description} />
+		{structuredDataJson && <script type="application/ld+json" set:html={structuredDataJson} />}
+	</head>
+	<body>
+		<Header />
+		<main id="contenido-principal">
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,101 @@
+---
+import type { NewsItem } from '../../data/home';
+
+interface Props {
+	news: NewsItem[];
+}
+
+const { news } = Astro.props;
+---
+
+<section id="noticias" class="section-shell" aria-labelledby="news-title">
+	<div class="section-heading">
+		<p class="eyebrow">Noticias y actividades</p>
+		<h2 id="news-title" class="section-title">Actividad institucional reciente</h2>
+		<p class="section-copy">Este bloque queda preparado para publicar noticias con fecha, categoría, imagen validada y resumen claro.</p>
+	</div>
+	{news.length > 0 ? (
+		<div class="news-grid">
+			{news.slice(0, 3).map((item) => (
+				<article class="news-card">
+					<div class="news-image" aria-hidden="true"></div>
+					<div class="news-body">
+						<p class="news-meta">{item.category} · {item.publishedAt}</p>
+						<h3>{item.title}</h3>
+						<p>{item.summary}</p>
+						<a href={item.href}>Leer más</a>
+					</div>
+				</article>
+			))}
+		</div>
+	) : (
+		<div class="empty-state">
+			<strong>Aún no hay noticias oficiales cargadas.</strong>
+			<p>Cuando existan publicaciones validadas, se mostrarán aquí con fecha, categoría y enlace a detalle.</p>
+		</div>
+	)}
+</section>
+
+<style>
+	.news-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.news-card {
+		overflow: hidden;
+		border: 1px solid var(--color-neutral-200);
+		border-radius: var(--radius-lg);
+		background: var(--color-white);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.news-image {
+		aspect-ratio: 16 / 9;
+		background: var(--gradient-institutional);
+	}
+
+	.news-body {
+		display: grid;
+		gap: 0.75rem;
+		padding: var(--space-5);
+	}
+
+	.news-meta {
+		color: var(--color-primary-800);
+		font-size: 0.82rem;
+		font-weight: 800;
+	}
+
+	h3 {
+		margin: 0;
+	}
+
+	p:not(.news-meta) {
+		color: var(--color-neutral-600);
+		font-family: var(--font-reading);
+	}
+
+	a {
+		color: var(--color-primary-800);
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	a:hover,
+	a:focus-visible {
+		text-decoration: underline;
+	}
+
+	.empty-state {
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	@media (max-width: 900px) {
+		.news-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

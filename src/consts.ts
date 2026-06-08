@@ -1,5 +1,3 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
-
-export const SITE_TITLE = 'Astro Blog';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const SITE_TITLE = 'UNEFA Extensión San Casimiro | Núcleo Aragua';
+export const SITE_DESCRIPTION =
+	'Portal institucional de la UNEFA Extensión San Casimiro, Núcleo Aragua. Información académica, noticias, aspirantes, estudiantes, ubicación y contacto.';
